@@ -50,4 +50,10 @@ def run_pipeline(input_path: str = "gravacao-1.mp4", output_path: str = "editado
 
 
 if __name__ == "__main__":
-    run_pipeline()
+    import argparse
+    parser = argparse.ArgumentParser(description="Video Silence Cut Pipeline")
+    parser.add_argument("--input", default="gravacao-1.mp4", help="Path to the source video file.")
+    parser.add_argument("--output", default="editado.mp4", help="Path for the edited output video file.")
+    args = parser.parse_args()
+    
+    run_pipeline(args.input, args.output)

@@ -1,4 +1,5 @@
 import json
+import os
 import whisperx
 
 def extract_word_timestamps(
@@ -43,6 +44,7 @@ def extract_word_timestamps(
     if not word_segments:
         raise ValueError("No words recognized in audio")
         
+    os.makedirs(os.path.dirname(os.path.abspath(output_json)), exist_ok=True)
     with open(output_json, "w", encoding="utf-8") as f:
         json.dump(result, f, indent=2, ensure_ascii=False)
         

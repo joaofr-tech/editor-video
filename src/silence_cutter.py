@@ -5,7 +5,8 @@ def compute_keep_segments(
     min_silence: float = 0.25,
 ) -> list[tuple[float, float]]:
     """Compute segments to keep by merging words and respecting padding and minimum silence."""
-    valid_words = [w for w in words if "start" in w and "end" in w]
+    valid_words = [w for w in words if w.get("start") is not None and w.get("end") is not None]
+    valid_words.sort(key=lambda w: w["start"])
     if not valid_words:
         return []
 
