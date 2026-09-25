@@ -1,0 +1,32 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+.pytest_cache/
+.venv/
+env/
+venv/
+
+# Local Video Files (Don't upload massive test files to the container)
+*.mp4
+*.wav
+*.mkv
+*.avi
+*.mov
+
+# Logs and Env
+*.log
+.env
+
+# Antigravity/Agent artifacts
+.agents/
+.superpowers/
+.gemini/
+skills-lock.json
+
+# IDE and Git
+.vscode/
+.idea/
+.git/
+.gitignore
+README.md

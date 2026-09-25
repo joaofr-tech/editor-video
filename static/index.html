@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Silence-Cutter</title>
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+    <div class="container">
+        <h1 class="dashed-title">Silence-Cutter</h1>
+        <p>Upload your MP4 video and we'll automatically remove the silences.</p>
+
+        <div class="drop-zone" id="drop-zone">
+            <span class="drop-zone-prompt">Drag & Drop an MP4 video here<br>or click to select</span>
+            <input type="file" name="file" id="file-input" accept="video/mp4" class="drop-zone-input">
+        </div>
+
+        <div class="loading-state hidden" id="loading-state">
+            <div class="spinner"></div>
+            <p>Processing video... This may take a few minutes depending on the file size.</p>
+        </div>
+
+        <div class="success-message hidden" id="success-message">
+            <p>✅ Processing complete!</p>
+        </div>
+
+        <div class="error-message hidden" id="error-message">
+            <p>❌ An error occurred while processing the video.</p>
+            <p id="error-details"></p>
+        </div>
+    </div>
+
+    <dialog id="download-dialog">
+        <h2>Download Video</h2>
+        <form method="dialog" id="download-form">
+            <label for="filename-input">Filename:</label>
+            <div class="input-group">
+                <input type="text" id="filename-input" name="filename" required>
+                <span class="extension">.mp4</span>
+            </div>
+            <div class="dialog-actions">
+                <button type="button" class="btn btn-secondary" id="cancel-btn">Cancel</button>
+                <button type="submit" class="btn btn-primary" id="download-btn">Download</button>
+            </div>
+        </form>
+    </dialog>
+
+    <script src="/static/script.js"></script>
+</body>
+</html>
