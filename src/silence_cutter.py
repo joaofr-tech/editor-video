@@ -3,9 +3,19 @@ def compute_keep_segments(
     total_duration: float,
     padding: float = 0.08,
     min_silence: float = 0.25,
+    max_word_duration: float = 0.8,
 ) -> list[tuple[float, float]]:
     """Compute segments to keep by merging words and respecting padding and minimum silence."""
-    valid_words = [w for w in words if w.get("start") is not None and w.get("end") is not None]
+    valid_words = []
+    for w in words:
+        if w.get("start") is not None and w.get("end") is not None:
+            w_start = w["start"]
+            w_end = w["end"]
+            # Limita a duração da palavra para evitar que o WhisperX esconda silêncios
+            if w_end - w_start > max_word_duration:
+                w_end = w_start + max_word_duration
+            valid_words.append({"start": w_start, "end": w_end, "word": w.get("word")})
+            
     valid_words.sort(key=lambda w: w["start"])
     if not valid_words:
         return []

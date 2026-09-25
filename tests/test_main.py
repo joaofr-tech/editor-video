@@ -18,7 +18,7 @@ def test_main(mock_check_output, mock_verify, mock_cut, mock_compute, mock_extra
     main.run_pipeline("gravacao-1.mp4", "editado.mp4")
 
     mock_setup.assert_called_once()
-    mock_extract.assert_called_once_with("gravacao-1.mp4")
+    mock_extract.assert_called_once_with("gravacao-1.mp4", model_size="small", device="cpu", compute_type="float32")
     mock_compute.assert_called_once()
     mock_cut.assert_called_once_with("gravacao-1.mp4", "editado.mp4", [(0.0, 1.0)])
     mock_verify.assert_called_once_with("editado.mp4", 1.0)
@@ -39,7 +39,7 @@ def test_main_default_arguments(mock_check_output, mock_verify, mock_cut, mock_c
     main.run_pipeline()
 
     mock_setup.assert_called_once()
-    mock_extract.assert_called_once_with("gravacao-1.mp4")
+    mock_extract.assert_called_once_with("gravacao-1.mp4", model_size="small", device="cpu", compute_type="float32")
     mock_compute.assert_called_once_with([{"word": "hello", "start": 0.0, "end": 2.0}], 10.0)
     mock_cut.assert_called_once_with("gravacao-1.mp4", "editado.mp4", [(0.0, 2.0)])
     mock_verify.assert_called_once_with("editado.mp4", 2.0)

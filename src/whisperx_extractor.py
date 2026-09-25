@@ -8,7 +8,7 @@ def extract_word_timestamps(
     model_size: str = "small",
     language: str = "pt",
     device: str = "cpu",
-    compute_type: str = "int8",
+    compute_type: str = "float32",
 ) -> list[dict]:
     """Extract word-level timestamps using WhisperX and save alignment metadata.
     
@@ -18,7 +18,7 @@ def extract_word_timestamps(
         model_size: Model size for Whisper (e.g. 'small', 'base').
         language: Language code (e.g. 'pt', 'en').
         device: Device to run models on ('cpu' or 'cuda').
-        compute_type: Quantization/compute type ('int8', 'float16').
+        compute_type: Quantization/compute type ('int8', 'float16', 'float32').
         
     Returns:
         List of word segment dictionaries with 'word', 'start', 'end' keys.
@@ -27,7 +27,16 @@ def extract_word_timestamps(
         ValueError: If no words are recognized in the audio.
     """
     audio = whisperx.load_audio(video_path)
-    model = whisperx.load_model(model_size, device=device, compute_type=compute_type, language=language)
+    
+    # Increase VAD sensitivity to avoid dropping audio at the start
+    vad_opts = {"vad_onset": 0.100, "vad_offset": 0.363}
+    model = whisperx.load_model(
+        model_size, 
+        device=device, 
+        compute_type=compute_type, 
+        language=language,
+        vad_options=vad_opts
+    )
     result = model.transcribe(audio, batch_size=8)
     
     align_model, align_metadata = whisperx.load_align_model(language_code=language, device=device)

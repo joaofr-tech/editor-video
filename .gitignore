@@ -4,3 +4,7 @@ __pycache__/
 .pytest_cache/
 editado.mp4
 timestamps.json
+
+*.mp4
+test_*.json
+test_*.py

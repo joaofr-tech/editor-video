@@ -8,12 +8,13 @@ from src.video_editor import cut_video
 from src.whisperx_extractor import extract_word_timestamps
 
 
-def run_pipeline(input_path: str = "gravacao-1.mp4", output_path: str = "editado.mp4") -> None:
+def run_pipeline(input_path: str = "gravacao-1.mp4", output_path: str = "editado.mp4", model_size: str = "small") -> None:
     """Run the end-to-end silence removal pipeline on the given input video.
 
     Args:
         input_path: Path to the source video file.
         output_path: Path for the edited output video file.
+        model_size: Size of the Whisper model to use.
     """
     setup_environment()
 
@@ -29,7 +30,7 @@ def run_pipeline(input_path: str = "gravacao-1.mp4", output_path: str = "editado
     total_duration = float(raw_dur.strip())
 
     print("Extracting timestamps...")
-    words = extract_word_timestamps(input_path)
+    words = extract_word_timestamps(input_path, model_size=model_size, device="cpu", compute_type="float32")
 
     print("Computing keep segments...")
     segments = compute_keep_segments(words, total_duration)
@@ -54,6 +55,7 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Video Silence Cut Pipeline")
     parser.add_argument("--input", default="gravacao-1.mp4", help="Path to the source video file.")
     parser.add_argument("--output", default="editado.mp4", help="Path for the edited output video file.")
+    parser.add_argument("--model", default="small", help="Whisper model size (small, medium, large-v2).")
     args = parser.parse_args()
     
-    run_pipeline(args.input, args.output)
+    run_pipeline(args.input, args.output, args.model)

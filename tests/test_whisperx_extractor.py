@@ -70,7 +70,8 @@ def test_extract_word_timestamps_custom_parameters(mock_whisperx, tmp_path):
     )
     
     mock_whisperx.load_audio.assert_called_once_with("video.mp4")
-    mock_whisperx.load_model.assert_called_once_with("base", device="cpu", compute_type="int8", language="fr")
+    vad_opts = {"vad_onset": 0.100, "vad_offset": 0.363}
+    mock_whisperx.load_model.assert_called_once_with("base", device="cpu", compute_type="int8", language="fr", vad_options=vad_opts)
     mock_model.transcribe.assert_called_once_with(mock_audio, batch_size=8)
     mock_whisperx.load_align_model.assert_called_once_with(language_code="fr", device="cpu")
     mock_whisperx.align.assert_called_once_with(
